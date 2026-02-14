@@ -5,14 +5,14 @@ vault:
 
 mssql:
   secret_path: secret/data/service/database/prod-sqlserver
-  override_host: localhost
+  override_host: 127.0.0.1
   override_port: 1433
   output:
     filename: mssql-tables.xlsx
 
 mysql:
   secret_path: secret/data/service/database/prod-datapipeline
-  override_host: localhost
+  override_host: 127.0.0.1
   override_port: 3306
   output:
     filename: mysql-tables.xlsx
@@ -21,6 +21,8 @@ ddl:
   input_file: mssql-tables.xlsx
   output_dir: ddl
 
-# schema.table (clsc.tcl_cp)
+# schema.table (store.tb_lower)
 tables:
-  - clsc.tcl_cp
+  - store.tb_lower
+  - store.TB_UPPER
+  - store.TB_COMPOSITE_KEY
