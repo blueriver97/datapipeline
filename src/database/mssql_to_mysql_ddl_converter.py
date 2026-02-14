@@ -35,7 +35,7 @@ MYSQL_RESERVED_WORD = (
     "VALUES,VARBINARY,VARCHAR,VARCHARACTER,VARYING,VIRTUAL,WHEN,WHERE,WHILE,WINDOW,WITH,"
     "WRITE,XOR,YEAR_MONTH,ZEROFILL"
 ).split(",")
-BACKTIC_PTN = re.compile("[가-힣()\[\]#~ ]+")
+BACKTIC_PTN = re.compile(r"[가-힣()\[\]#~ ]+")
 
 
 def load_settings(settings_path="settings.yml"):
@@ -125,9 +125,9 @@ def write_file(path, contents):
 
 
 def generate_ddl(settings):
-    ddl_config = settings.get("ddl", {})
+    ddl_config = settings.get("convert_ddl", {})
     input_file = ddl_config.get("input_file", "mssql-tables.xlsx")
-    output_dir = ddl_config.get("output_dir", "ddl")
+    output_dir = ddl_config.get("output_dir", "convert_ddl")
 
     if not os.path.exists(input_file):
         print(f"Input file not found: {input_file}")

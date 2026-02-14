@@ -146,17 +146,17 @@ def save_queries_to_file(output_dir, db_name, table_name, queries):
     print(f"Generated {file_path}")
 
 
-def generate_comments(settings, match_by="name"):
-    """
-    match_by: 'name' or 'sequence'
-    """
-    mssql_config = settings.get("mssql", {})
-    mysql_config = settings.get("mysql", {})
+def generate_comments(settings):
+    comment_config = settings.get("comment", {})
+    export_config = comment_config.get("export", {})
+    mysql_config = export_config.get("mysql", {})
 
-    mssql_file = mssql_config.get("output", {}).get("specification_filename", "mssql-tables.xlsx")
-    mysql_file = mysql_config.get("output", {}).get("specification_filename", "mysql-tables.xlsx")
+    mssql_file = comment_config.get("mssql_file", "mssql-tables.xlsx")
+    mysql_file = comment_config.get("mysql_file", "mysql-tables.xlsx")
 
-    output_dir = "comment_scripts"
+    output_dir = mysql_config.get("output_dir", "comment_scripts")
+    match_by = mysql_config.get("match_by", "name")
+
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
@@ -193,6 +193,6 @@ if __name__ == "__main__":
     if os.path.exists(settings_path):
         settings = load_settings(settings_path)
         # You can change this to 'sequence' if you prefer the old behavior
-        generate_comments(settings, match_by="name")
+        generate_comments(settings)
     else:
         print(f"Settings file not found at {settings_path}")

@@ -18,12 +18,23 @@ mysql:
   output:
     specification_filename: mysql-tables.xlsx
 
-ddl:
+convert_ddl:
   input_file: mssql-tables.xlsx
-  output_dir: ddl
+  output_dir: convert_ddl
+
+comment:
+  mssql_file: mssql-tables.xlsx
+  mysql_file: mysql-tables.xlsx
+  export:
+    mysql:
+      output_dir: comment_scripts
+      match_by: name
+
+    iceberg:
+      profile: blueriver
+      catalog: glue_catalog
+      warehouse: s3a://blueriver-datalake/iceberg
 
 # schema.table (store.tb_lower)
 tables:
   - store.tb_lower
-  - store.TB_UPPER
-  - store.TB_COMPOSITE_KEY
