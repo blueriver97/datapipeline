@@ -121,7 +121,7 @@ def generate_specification(settings):
 
     if dfs:
         table_specification = pd.concat(dfs)
-        output_filename = output_config.get("filename", "mysql-tables.xlsx")
+        output_filename = output_config.get("specification_filename", "mysql-tables.xlsx")
         table_specification.to_excel(output_filename)
         print(f"Specification saved to {output_filename}")
 

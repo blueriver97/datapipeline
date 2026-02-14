@@ -8,14 +8,15 @@ mssql:
   override_host: 127.0.0.1
   override_port: 1433
   output:
-    filename: mssql-tables.xlsx
+    specification_filename: mssql-tables.xlsx
+    spaceused_filename: mssql-spaceused.xlsx
 
 mysql:
   secret_path: secret/data/user/database/prod-datapipeline
   override_host: 127.0.0.1
   override_port: 3306
   output:
-    filename: mysql-tables.xlsx
+    specification_filename: mysql-tables.xlsx
 
 ddl:
   input_file: mssql-tables.xlsx
