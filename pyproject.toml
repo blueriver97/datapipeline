@@ -101,5 +101,5 @@ docstring-code-format = false
 docstring-code-line-length = "dynamic"
 
 [[tool.mypy.overrides]]
-module = ["hvac.*", "pyodbc.*"]
+module = ["hvac.*", "pyodbc.*", "mysql.*"]
 ignore_missing_imports = true

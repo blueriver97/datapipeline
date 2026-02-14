@@ -4,14 +4,14 @@ vault:
   password: vaultadmin
 
 mssql:
-  secret_path: secret/data/service/database/prod-sqlserver
+  secret_path: secret/data/user/database/prod-sqlserver
   override_host: 127.0.0.1
   override_port: 1433
   output:
     filename: mssql-tables.xlsx
 
 mysql:
-  secret_path: secret/data/service/database/prod-datapipeline
+  secret_path: secret/data/user/database/prod-datapipeline
   override_host: 127.0.0.1
   override_port: 3306
   output:
