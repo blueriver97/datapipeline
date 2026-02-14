@@ -1,0 +1,26 @@
+vault:
+  url: http://vault.svc.internal:8200
+  username: admin
+  password: vaultadmin
+
+mssql:
+  secret_path: secret/data/service/database/prod-sqlserver
+  override_host: localhost
+  override_port: 1433
+  output:
+    filename: mssql-tables.xlsx
+
+mysql:
+  secret_path: secret/data/service/database/prod-datapipeline
+  override_host: localhost
+  override_port: 3306
+  output:
+    filename: mysql-tables.xlsx
+
+ddl:
+  input_file: mssql-tables.xlsx
+  output_dir: ddl
+
+# schema.table (clsc.tcl_cp)
+tables:
+  - clsc.tcl_cp

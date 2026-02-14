@@ -1,0 +1,23 @@
+aiomysql
+boto3
+Faker
+mysql-connector-python
+numpy
+openpyxl
+pandas
+requests
+tabulate
+tqdm
+pyodbc
+pydantic
+pydantic_core
+pydantic_settings
+XlsxWriter
+
+# for 05-kafka
+confluent-kafka
+fastavro
+cachetools
+
+# glue schema registry
+aws-glue-schema-registry
