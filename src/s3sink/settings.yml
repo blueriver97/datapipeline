@@ -1,0 +1,35 @@
+s3sink:
+  output_dir: s3sink-configs
+  aws:
+    profile: blueriver
+    region: ap-northeast-2
+    override_access_key:
+    override_secret_key:
+
+  common:
+    server_name: local
+    bucket_name: blueriver-datalake
+    topics_dir: data/topics
+    flush_size: 1000
+    dead_letter_topic: deadletter.s3sink
+    serialization: AVRO
+    partitioner:
+      class: io.confluent.connect.storage.partitioner.DailyPartitioner
+      rotate_schedule_interval_ms: 60000 # 60s
+    schema_registry:
+      url: http://schema-registry.svc.internal:8081
+      compatibility: NONE # [NONE, BACKWARD, FORWARD, FULL]
+
+    topics:
+      - local.store.tb_lower
+      - local.store.TB_UPPER
+      - local.store.TB_COMPOSITE_KEY
+# HourlyPartitioner
+#    "partitioner.class": "io.confluent.connect.storage.partitioner.TimeBasedPartitioner"
+#    "partition.duration.ms": 3600 * 1000
+#    "path.format": "'year'=YYYY/'month'=MM/'day'=dd/'hour'=HH"
+#
+# DailyPartitioner
+#    "partitioner.class": "io.confluent.connect.storage.partitioner.TimeBasedPartitioner"
+#    "partition.duration.ms": 24 * 3600 * 1000
+#    "path.format": "'year'=YYYY/'month'=MM/'day'=dd"
