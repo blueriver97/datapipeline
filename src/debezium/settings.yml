@@ -1,0 +1,7 @@
+debezium:
+  url: "http://kafka-connector.svc.internal/connectors"
+  output_dir: "debezium-configs"
+  proxies:
+    http: "socks5://localhost:8001"
+    https: "socks5://localhost:8001"
+  verify: false
