@@ -5,3 +5,36 @@ debezium:
     http: "socks5://localhost:8001"
     https: "socks5://localhost:8001"
   verify: false
+
+prefix: local
+database: store
+tables:
+  - tb_lower
+  - TB_UPPER
+  - TB_COMPOSITE_KEY
+
+vault:
+  url: http://vault.svc.internal:8200
+  username: admin
+  password: vaultadmin
+  mount_point: secret
+  path:
+    local-mysql: user/database/local-mysql
+    local-sqlserver: user/database/local-sqlserver
+
+kafka:
+  local:
+    bootstrap_servers:
+      - kafka.svc.internal:9092
+    schema_registry: http://schema-registry.svc.internal:8081
+    username:
+    password:
+
+  kind:
+    bootstrap_servers:
+      - kafka-broker-0.kafka-broker-headless.default.svc.cluster.local:9092"
+      - kafka-broker-1.kafka-broker-headless.default.svc.cluster.local:9092"
+      - kafka-broker-2.kafka-broker-headless.default.svc.cluster.local:9092"
+    schema_registry: http://schema-registry.default.svc.cluster.local:8081
+    username:
+    password:
