@@ -1,0 +1,7 @@
+aws:
+  profile: prod
+  region: ap-northeast-2
+
+dms:
+  output_dir: dms-config
+  parsed_output_file: dms-config.xlsx
