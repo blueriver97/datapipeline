@@ -5,3 +5,14 @@ aws:
 dms:
   output_dir: dms-config
   parsed_output_file: dms-config.xlsx
+
+mssql_rules:
+  output_dir: dms_rules
+  tables:
+    # - db.schema.table
+  lower_case_tables:
+    # - db.schema.table
+  except_tables:
+    # - db.schema.table
+  except_columns:
+    # - db.schema.table.column
