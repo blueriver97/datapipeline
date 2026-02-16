@@ -2,6 +2,11 @@ kafka:
   bootstrap_servers: "kafka.svc.internal:9092"
   schema_registry_url: "http://schema-registry.svc.internal:8081"
 
+aws:
+  profile_name: "blueriver"
+  region_name: "ap-northeast-2"
+  registry_name: "test-gsr"
+
 consumer:
   group_id: "ConsumerGroup-1"
   auto_offset_reset: "earliest"
@@ -14,6 +19,8 @@ topics:
     json: "json_topic"
     avro: "avro_topic"
     json_schema: "json_schema_topic"
+    avro_gsr: "avro_gsr_topic"
+    json_schema_gsr: "json_schema_gsr_topic"
 
 debezium:
   scrape_interval: 60
