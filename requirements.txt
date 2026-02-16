@@ -18,6 +18,7 @@ XlsxWriter
 confluent-kafka
 fastavro
 cachetools
+dataclasses_avroschema
 
 # glue schema registry
 aws-glue-schema-registry

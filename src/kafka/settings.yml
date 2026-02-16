@@ -1,0 +1,20 @@
+kafka:
+  bootstrap_servers: "kafka.svc.internal:9092"
+  schema_registry_url: "http://schema-registry.svc.internal:8081"
+
+consumer:
+  group_id: "ConsumerGroup-1"
+  auto_offset_reset: "earliest"
+  session_timeout_ms: 6000
+
+topics:
+  default_partitions: 1
+  default_replication_factor: 1
+  names:
+    json: "json_topic"
+    avro: "avro_topic"
+    json_schema: "json_schema_topic"
+
+debezium:
+  scrape_interval: 60
+  timeout_limit: 30
