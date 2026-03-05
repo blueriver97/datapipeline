@@ -9,6 +9,7 @@ class TransformType(str, Enum):
     replaceValue = "replaceValue"
     replaceField = "replaceField"
     hashKey = "hashKey"
+    openLineage = "openLineage"
 
 
 class ConnectorType(str, Enum):

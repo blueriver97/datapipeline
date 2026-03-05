@@ -19,6 +19,7 @@ class DBZConfig:
     use_ssl: bool = False
     use_sasl: bool = False
     use_error_tolerance: bool = False
+    use_openlineage: bool = True
     transform_rules: list[TransformType] = field(default_factory=list)
 
 
@@ -62,6 +63,7 @@ TRANSFORM_CONFIG_MAPPING = {
         "delimiter": "|",
         "algorithm": "md5",
     },
+    TransformType.openLineage: {"type": "io.debezium.transforms.openlineage.OpenLineage"},
 }
 
 
@@ -195,19 +197,39 @@ def __get_error_handling_config(app: AppConfig, config: DBZConfig) -> dict:
     return result
 
 
-def __get_transforms(app: AppConfig, debezium: DBZConfig) -> dict:
+def __get_openlineage(app: AppConfig, config: DBZConfig) -> dict:
+    result = {}
+    if config.use_openlineage:
+        result.update(
+            {
+                # Enable OpenLineage integration
+                "openlineage.integration.enabled": "true",
+                # Path to OpenLineage configuration file
+                "openlineage.integration.config.file.path": "/usr/local/share/kafka/openlineage/openlineage.yml",
+                # Job metadata (optional but recommended)
+                "openlineage.integration.job.namespace": "dbz_namespace",
+                "openlineage.integration.job.description": "CDC Connector for database",
+                "openlineage.integration.job.tags": "env=PROD",
+                "openlineage.integration.job.owners": "di=data-engineer",
+            }
+        )
+
+    return result
+
+
+def __get_transforms(app: AppConfig, config: DBZConfig) -> dict:
     result = {}
     template_context = {"topic_prefix": app.prefix}
-    if debezium.transform_rules:
-        result.update({"transforms": ",".join(debezium.transform_rules)})
+    if config.transform_rules:
+        result.update({"transforms": ",".join(config.transform_rules)})
 
-    for transform in debezium.transform_rules:
+    for transform in config.transform_rules:
         subconfig = {}
-        config = TRANSFORM_CONFIG_MAPPING.get(transform)
-        if config is None:
+        transform_config = TRANSFORM_CONFIG_MAPPING.get(transform)
+        if transform_config is None:
             continue
 
-        for key, value in config.items():
+        for key, value in transform_config.items():
             # i.e) transforms.unwrap.type = io.debezium.transforms.ExtractNewRecordState
             config_key = f"transforms.{transform.name}.{key}"
 
@@ -271,8 +293,8 @@ def generate(app: AppConfig, debezium: DBZConfig):
     connector.update(__get_ssl_config(app, debezium))
     connector.update(__get_sasl_config(app, debezium))
     # connector.update(__get_error_handling_config(app, debezium))
+    connector.update(__get_openlineage(app, debezium))
     connector.update(__get_transforms(app, debezium))
-
     connector.update(
         {
             "time.precision.mode": "adaptive_time_microseconds",
@@ -304,7 +326,8 @@ if __name__ == "__main__":
         use_ssl=False,
         use_sasl=False,
         use_error_tolerance=True,
-        transform_rules=[],
+        use_openlineage=True,
+        transform_rules=[TransformType.openLineage],
     )
 
     try:
