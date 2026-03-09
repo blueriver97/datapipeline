@@ -29,7 +29,7 @@ def print_assignment(consumer, partitions):
     print("Assignment:", partitions)
 
 
-def consume_json_messages():
+def consume_json_messages(save_json: bool = False):
     """
     Kafka 토픽에서 JSON 메시지를 소비합니다.
     """
@@ -57,6 +57,13 @@ def consume_json_messages():
                 # 정상 메시지 처리
                 print(f"%% {msg.topic()} [{msg.partition()}] at offset {msg.offset()} with key {msg.key()}:")
                 print(msg.value().decode("utf-8"))
+
+                if save_json:
+                    output_file = Path(__file__).parent / "output" / f"{msg.offset()}.json"
+                    output_file.mkdir(parents=True, exist_ok=True)
+                    with open(output_file, "w", encoding="utf-8") as f:
+                        f.write(msg.value().decode("utf-8"))
+
                 # 오프셋 저장
                 consumer.store_offsets(msg)
 
@@ -69,4 +76,6 @@ def consume_json_messages():
 
 
 if __name__ == "__main__":
-    consume_json_messages()
+    consume_json_messages(
+        save_json=True,
+    )
