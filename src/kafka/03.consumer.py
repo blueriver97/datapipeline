@@ -60,7 +60,7 @@ def consume_json_messages(save_json: bool = False):
 
                 if save_json:
                     output_file = Path(__file__).parent / "output" / f"{msg.offset()}.json"
-                    output_file.mkdir(parents=True, exist_ok=True)
+                    output_file.parent.mkdir(parents=True, exist_ok=True)
                     with open(output_file, "w", encoding="utf-8") as f:
                         f.write(msg.value().decode("utf-8"))
 
